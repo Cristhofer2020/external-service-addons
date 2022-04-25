@@ -960,7 +960,9 @@ class AccountMove(models.Model):
         # separated of ECF messages posts
         self.sudo().message_post(body=refused_msg)
 
-    def _show_service_unreachable_message(self):
+    def _show_service_unreachable_message(self, log_msg=""):
+        if log_msg:
+            _logger.error("Service Unreachable Error. Details: %s" % log_msg)
         msg = _(
             "ECF %s can not be sent due External Service communication issue. "
             "Try again in while or enable company contingency status" % self.ref
@@ -976,7 +978,11 @@ class AccountMove(models.Model):
 
         try:
             vals = safe_eval(str(response.text).replace("null", "None"))
-        except ValueError:  # could not parse a dict from response text
+        except (
+            ValueError,
+            TypeError,
+            SyntaxError,
+        ):  # could not parse a dict from response text
             vals = {}
 
         return response, vals
@@ -1070,8 +1076,14 @@ class AccountMove(models.Model):
                     raise ValidationError(msg_body)
 
                 else:  # anything else will be treated as a communication issue
-                    # invoice.l10n_do_ecf_send_state = "service_unreachable"
-                    invoice._show_service_unreachable_message()
+
+                    log_msg = ""
+                    if response:
+                        log_msg += "status_code: %s " % response.status_code
+                    if response_text:
+                        log_msg += "message: %s" % response_text
+
+                    invoice._show_service_unreachable_message(log_msg)
 
             except requests.exceptions.MissingSchema:
                 raise ValidationError(_("Wrong external service URL"))
@@ -1118,7 +1130,7 @@ class AccountMove(models.Model):
                     else:
                         continue
 
-                except (ValueError, TypeError):
+                except (ValueError, TypeError, SyntaxError):
                     continue
 
             except requests.exceptions.ConnectionError:
