@@ -16,6 +16,9 @@ class ResCompany(models.Model):
         "-External: validates NCF issued by external entity.\n"
         "-Both: validates both cases.",
     )
+<<<<<<< HEAD
 
     ncf_validation_dgii = fields.Boolean()
+=======
+>>>>>>> 7c4183ce94ed163916759ae4253eed777d61441b
     validate_ecf = fields.Boolean()

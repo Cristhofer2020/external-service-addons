@@ -17,8 +17,11 @@
                             Which type of NCF will be validated
                         </div>
                         <field name="ncf_validation_target"/>
+<<<<<<< HEAD
                         <field name="ncf_validation_dgii"/>
 
+=======
+>>>>>>> 7c4183ce94ed163916759ae4253eed777d61441b
                     </div>
                 </div>
                 <div class="col-12 col-lg-6 o_setting_box">

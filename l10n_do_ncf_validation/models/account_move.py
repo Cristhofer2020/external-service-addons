@@ -8,6 +8,7 @@ from odoo.exceptions import ValidationError
 class AccountMove(models.Model):
     _inherit = "account.move"
 
+<<<<<<< HEAD
 
     # def validate_ncf_dgii(self):
     #     # client = Client('dgii.gov.do/wsMovilDGII/WSMovilDGII.asmx')
@@ -55,6 +56,8 @@ class AccountMove(models.Model):
         #     json_file.close()
 
 
+=======
+>>>>>>> 7c4183ce94ed163916759ae4253eed777d61441b
     def _has_valid_ncf(self):
         """
         Query external service to check NCF status
@@ -75,7 +78,11 @@ class AccountMove(models.Model):
         )
         check_rnc_format(rnc)
 
+<<<<<<< HEAD
         ncf = self.ref
+=======
+        ncf = self.l10n_do_fiscal_number
+>>>>>>> 7c4183ce94ed163916759ae4253eed777d61441b
         if not ncf or len(ncf) not in (11, 13) or ncf[0] not in ("B", "E"):
             raise ValidationError(
                 _("NCF %s has a invalid format. Please fix it and try again." % ncf)
@@ -113,7 +120,10 @@ class AccountMove(models.Model):
                 payload,
                 headers={"x-access-token": get_param("ncf.api.token")},
             )
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7c4183ce94ed163916759ae4253eed777d61441b
         except requests.exceptions.ConnectionError:
             raise ValidationError(
                 _(
@@ -161,7 +171,11 @@ class AccountMove(models.Model):
                 raise ValidationError(
                     _(
                         "Cannot validate Fiscal Invoice "
+<<<<<<< HEAD
                         "because %s is not a valid NCF" % invoice.ref
+=======
+                        "because %s is not a valid NCF" % invoice.l10n_do_fiscal_number
+>>>>>>> 7c4183ce94ed163916759ae4253eed777d61441b
                     )
                 )
 
