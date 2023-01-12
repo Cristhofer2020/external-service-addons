@@ -8,56 +8,7 @@ from odoo.exceptions import ValidationError
 class AccountMove(models.Model):
     _inherit = "account.move"
 
-<<<<<<< HEAD
 
-    # def validate_ncf_dgii(self):
-    #     # client = Client('dgii.gov.do/wsMovilDGII/WSMovilDGII.asmx')
-    #     url = "https://dgii.gov.do/wsMovilDGII/WSMovilDGII.asmx"
-    #
-    #     rnc = self.partner_id.vat
-    #     ncf = self.l10n_do_fiscal_number
-    #
-    #     payload = """"<?xml version="1.0" encoding="utf-8"?>
-    #                 <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-    #                   <soap:Body>
-    #                     <GetNCF xmlns="http://dgii.gov.do/">
-    #                       <RNC>rnc</RNC>
-    #                       <NCF>ncf</NCF>
-    #                       <IMEI>string</IMEI>
-    #                     </GetNCF>
-    #                   </soap:Body>
-    #                 </soap:Envelope>"""
-    #
-    #     headers = {
-    #         'Host': 'dgii.gov.do',
-    #         'Content-Type': 'text/xml; charset=utf-8',
-    #         'Content-Length': 'length',
-    #         'SOAPAction': 'http://dgii.gov.do/GetNCF'
-    #     }
-
-            # POST request
-            # response = requests.request("POST", url, headers=headers, data=payload)
-
-        # prints the response
-        # print(response.text)
-        # print(response)
-
-        # data_dgii = response.text
-        # print(data_dgii.)
-
-        # with response.text as xml_file:
-        # data_dict = xmltodict.parse(response.text)
-
-        # ncf_result = data_dict['soap:Envelope']['soap:Body']['GetNCFResponse']['GetNCFResult']
-
-        # json_data = json.dumps(data_dict)
-        # with open("data.json", "w") as json_file:
-        #     json_file.write(json_data)
-        #     json_file.close()
-
-
-=======
->>>>>>> 7c4183ce94ed163916759ae4253eed777d61441b
     def _has_valid_ncf(self):
         """
         Query external service to check NCF status
@@ -78,11 +29,7 @@ class AccountMove(models.Model):
         )
         check_rnc_format(rnc)
 
-<<<<<<< HEAD
-        ncf = self.ref
-=======
         ncf = self.l10n_do_fiscal_number
->>>>>>> 7c4183ce94ed163916759ae4253eed777d61441b
         if not ncf or len(ncf) not in (11, 13) or ncf[0] not in ("B", "E"):
             raise ValidationError(
                 _("NCF %s has a invalid format. Please fix it and try again." % ncf)
@@ -120,10 +67,6 @@ class AccountMove(models.Model):
                 payload,
                 headers={"x-access-token": get_param("ncf.api.token")},
             )
-<<<<<<< HEAD
-
-=======
->>>>>>> 7c4183ce94ed163916759ae4253eed777d61441b
         except requests.exceptions.ConnectionError:
             raise ValidationError(
                 _(
@@ -171,11 +114,7 @@ class AccountMove(models.Model):
                 raise ValidationError(
                     _(
                         "Cannot validate Fiscal Invoice "
-<<<<<<< HEAD
-                        "because %s is not a valid NCF" % invoice.ref
-=======
                         "because %s is not a valid NCF" % invoice.l10n_do_fiscal_number
->>>>>>> 7c4183ce94ed163916759ae4253eed777d61441b
                     )
                 )
 
